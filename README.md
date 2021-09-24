@@ -9,6 +9,9 @@
     - [With a shell plugin manager](#with-a-shell-plugin-manager)
     - [Manual](#manual)
 - [Usage](#usage)
+    - [macOS Terminal.app users](#macos-terminal-app-users)
+    - [Oh-My-Zsh users](#oh-my-zsh-users)
+    - [CLI](#cli)
 - [Options](#options)
 - [Contributing](#contributing)
 - [License](#License)
@@ -74,6 +77,16 @@ DISABLE_AUTO_TITLE=”true”
 ```
 
 to your `~/.zshrc` file.
+
+### CLI
+
+You can run
+
+```shell
+zsh-window-title restore-defaults
+```
+
+to restore options to their defaults in the current session. See [Options](#options).
 
 ## Options
 

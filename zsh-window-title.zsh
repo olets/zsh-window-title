@@ -3,32 +3,35 @@
 # A zsh plugin for informative terminal window titles
 # Copyright © 2021 Henry Bley-Vroman
 
+typeset -gir ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT=2
+typeset -gi ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=${ZSH_WINDOW_TITLE_DIRECTORY_DEPTH:-$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT}
 
-typeset -i ZSH_WINDOW_TITLE_DIRECTORY_DEPTH
-ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=${ZSH_WINDOW_TITLE_DIRECTORY_DEPTH:-2}
-
-__zwt-add-hooks() {
+__zsh-window-title:add-hooks() {
   'builtin' 'emulate' -LR zsh
 
   # update window title before drawing the prompt
-  add-zsh-hook precmd __zwt-set-window-title-idle
+  add-zsh-hook precmd __zsh-window-title:set-window-title-idle
 
   # update the window title before executing a command
-  add-zsh-hook preexec __zwt-set-window-title-running
+  add-zsh-hook preexec __zsh-window-title:set-window-title-running
 }
 
-__zwt-init() {
+__zsh-window-title:init() {
   'builtin' 'emulate' -LR zsh
 
-  __zwt-set-window-title-idle
+  __zsh-window-title:set-window-title-idle
 
   # enable hooks
   'builtin' 'autoload' -U add-zsh-hook
   
-  __zwt-add-hooks
+  __zsh-window-title:add-hooks
 }
 
-__zwt-set-window-title-idle() {
+__zsh-window-title:restore-defaults() {
+  ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT
+}
+
+__zsh-window-title:set-window-title-idle() {
   # set the window title to
   # <parent dir>/<current dir>
 
@@ -39,7 +42,7 @@ __zwt-set-window-title-idle() {
   'builtin' 'echo' -ne "\033]0;$title\007"
 }
 
-__zwt-set-window-title-running() {
+__zsh-window-title:set-window-title-running() {
   # set the window title to
   # <parent dir>/<current dir> - <first word of active command>
 
@@ -50,4 +53,18 @@ __zwt-set-window-title-running() {
   'builtin' 'echo' -ne "\033]0;$title\007"
 }
 
-__zwt-init
+zwt() {
+  while (($# )); do
+    case $1 in
+      "restore-defaults")
+        __zsh-window-title:restore-defaults
+        return
+        ;;
+      *)
+        shift
+        ;;
+    esac
+  done
+}
+
+__zsh-window-title:init
