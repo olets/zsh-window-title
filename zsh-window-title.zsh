@@ -4,7 +4,8 @@
 # Copyright © 2021 Henry Bley-Vroman
 
 
-
+typeset -i ZSH_WINDOW_TITLE_DIRECTORY_DEPTH
+ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=${ZSH_WINDOW_TITLE_DIRECTORY_DEPTH:-2}
 
 __zwt-add-hooks() {
   'builtin' 'emulate' -LR zsh
@@ -33,7 +34,7 @@ __zwt-set-window-title-idle() {
 
   'builtin' 'emulate' -LR zsh
 
-  local title=$(print -P "%2~")
+  local title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~")
 
   'builtin' 'echo' -ne "\033]0;$title\007"
 }
@@ -44,7 +45,7 @@ __zwt-set-window-title-running() {
 
   'builtin' 'emulate' -LR zsh
 
-  local title=$(print -P "%2~ - ${1[(w)1]}")
+  local title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~ - ${1[(w)1]}")
 
   'builtin' 'echo' -ne "\033]0;$title\007"
 }

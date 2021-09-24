@@ -9,6 +9,7 @@
     - [With a shell plugin manager](#with-a-shell-plugin-manager)
     - [Manual](#manual)
 - [Usage](#usage)
+- [Options](#options)
 - [Contributing](#contributing)
 - [License](#License)
 
@@ -73,6 +74,12 @@ DISABLE_AUTO_TITLE=”true”
 ```
 
 to your `~/.zshrc` file.
+
+## Options
+
+Variable | Type | Default | Use
+---|---|---|---
+ZSH_WINDOW_TITLE_DIRECTORY_DEPTH | integer | 2 | How many directory levels to display
 
 ## Contributing
 
