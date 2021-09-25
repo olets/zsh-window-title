@@ -13,6 +13,8 @@
     - [Oh-My-Zsh users](#oh-my-zsh-users)
     - [CLI](#cli)
 - [Options](#options)
+- [Changelog](#changelog)
+- [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [License](#License)
 
@@ -37,7 +39,7 @@ brew install olets/tap/zsh-window-title
     ```shell
     exec zsh
     ```
-    
+
 If you're new to zsh plugin management and don't want to go down the rabbit hole of choices, try what —as of this writing— I use: zinit, with the following in my `~/.zshrc`:
 
 ```shell
@@ -97,6 +99,14 @@ Variable | Type | Default | Use
 ZSH_WINDOW_TITLE_DEBUG | integer | `0` | If non-zero, print hook debugging messages
 ZSH_WINDOW_TITLE_DIRECTORY_DEPTH | integer | `2` | How many directory levels to display
 ZWT_DEBUG | integer | `0` | If non-zero, print CLI debugging messages
+
+## Changelog
+
+See the [CHANGELOG](CHANGELOG.md) file.
+
+## Roadmap
+
+See the [ROADMAP](ROADMAP.md) file.
 
 ## Contributing
 
