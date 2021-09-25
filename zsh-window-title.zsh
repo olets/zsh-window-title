@@ -68,10 +68,10 @@ __zsh-window-title:add-hooks() {
   __zsh-window-title:debugger
 
   # update window title before drawing the prompt
-  add-zsh-hook precmd __zsh-window-title:set-window-title-idle
+  add-zsh-hook precmd __zsh-window-title:precmd
 
   # update the window title before executing a command
-  add-zsh-hook preexec __zsh-window-title:set-window-title-running
+  add-zsh-hook preexec __zsh-window-title:preexec
 }
 
 __zsh-window-title:init() {
@@ -85,14 +85,14 @@ __zsh-window-title:init() {
 
   'builtin' 'typeset' -gi ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=${ZSH_WINDOW_TITLE_DIRECTORY_DEPTH:-$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT}
 
-  __zsh-window-title:set-window-title-idle
+  __zsh-window-title:precmd
 
   'builtin' 'autoload' -U add-zsh-hook
   
   __zsh-window-title:add-hooks
 }
 
-__zsh-window-title:set-window-title-idle() {
+__zsh-window-title:precmd() {
   'builtin' 'emulate' -LR zsh
   __zsh-window-title:debugger
 
@@ -101,7 +101,7 @@ __zsh-window-title:set-window-title-idle() {
   'builtin' 'echo' -ne "\033]0;$title\007"
 }
 
-__zsh-window-title:set-window-title-running() {
+__zsh-window-title:preexec() {
   'builtin' 'emulate' -LR zsh
   __zsh-window-title:debugger
 
