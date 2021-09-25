@@ -85,8 +85,7 @@ __zsh-window-title:init() {
 
   __zsh-window-title:debugger
 
-  'builtin' 'typeset' -gi ZSH_WINDOW_TITLE_DIRECTORY_DEPTH && \
-    ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=${ZSH_WINDOW_TITLE_DIRECTORY_DEPTH:-$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT}
+  'builtin' 'typeset' -gi ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=${ZSH_WINDOW_TITLE_DIRECTORY_DEPTH:-$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT}
 
   __zsh-window-title:set-window-title-idle
 
