@@ -3,18 +3,18 @@
 # A zsh plugin for informative terminal window titles
 # Copyright © 2021 Henry Bley-Vroman
 
-typeset -g __zwt_dir && \
+'builtin' 'typeset' -g __zwt_dir && \
 	__zwt_dir=${0:A:h}
 
-typeset -g +r ZWT_VERSION >/dev/null && \
+'builtin' 'typeset' -g +r ZWT_VERSION >/dev/null && \
 	ZWT_VERSION=1.0.0 && \
-	typeset -gr ZWT_VERSION
+	'builtin' 'typeset' -gr ZWT_VERSION
 
-typeset -gi +r ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT >/dev/null && \
+'builtin' 'typeset' -gi +r ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT >/dev/null && \
   ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT=2 && \
-  typeset -gir ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT
+  'builtin' 'typeset' -gir ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT
 
-typeset -gi ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=${ZSH_WINDOW_TITLE_DIRECTORY_DEPTH:-$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT}
+'builtin' 'typeset' -gi ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=${ZSH_WINDOW_TITLE_DIRECTORY_DEPTH:-$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT}
 
 
 # zwt CLI subcommands
@@ -30,7 +30,7 @@ __zwt:restore-defaults() {
 }
 
 __zwt:version() {
-	emulate -LR zsh
+	'builtin' 'emulate' -LR zsh
 
 	'builtin' 'print' zwt $ZWT_VERSION
 }
