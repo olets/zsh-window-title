@@ -77,11 +77,9 @@ __zsh-window-title:add-hooks() {
 __zsh-window-title:init() {
   'builtin' 'emulate' -LR zsh
 
-  'builtin' 'typeset' -gi ZWT_DEBUG >/dev/null && \
-		ZWT_DEBUG=${ZWT_DEBUG:-$ZWT_DEBUG_DEFAULT}
+  'builtin' 'typeset' -gi ZWT_DEBUG=${ZWT_DEBUG:-$ZWT_DEBUG_DEFAULT}
 
-	typeset -gi ZSH_WINDOW_TITLE_DEBUG >/dev/null && \
-		ZSH_WINDOW_TITLE_DEBUG=${ZSH_WINDOW_TITLE_DEBUG:-$ZSH_WINDOW_TITLE_DEBUG_DEFAULT}
+	'builtin' 'typeset' -gi ZSH_WINDOW_TITLE_DEBUG=${ZSH_WINDOW_TITLE_DEBUG:-$ZSH_WINDOW_TITLE_DEBUG_DEFAULT}
 
   __zsh-window-title:debugger
 
