@@ -18,6 +18,12 @@
 	__zsh_window_title_directory_depth_default=2 && \
 	'builtin' 'typeset' -gir __zsh_window_title_directory_depth_default
 
+'builtin' 'typeset' -gi +r __zsh_window_title_minimum_command_duration_default >/dev/null && \
+	__zsh_window_title_minimum_command_duration_default=5 && \
+	'builtin' 'typeset' -gir __zsh_window_title_minimum_command_duration_default
+
+'builtin' 'typeset' -gir __zsh_window_title_sched_item >/dev/null
+
 'builtin' 'typeset' -gi +r __zwt_debug_default >/dev/null && \
 	__zwt_debug_default=0 && \
 	'builtin' 'typeset' -gir __zwt_debug_default
@@ -76,16 +82,19 @@ __zsh-window-title:add-hooks() {
 
 __zsh-window-title:init() {
 	'builtin' 'emulate' -LR zsh
+	__zsh-window-title:debugger
 
 	'builtin' 'typeset' -gi ZWT_DEBUG=${ZWT_DEBUG:-$__zwt_debug_default}
 
 	'builtin' 'typeset' -gi ZSH_WINDOW_TITLE_DEBUG=${ZSH_WINDOW_TITLE_DEBUG:-$__zsh_window_title_debug_default}
 
-	__zsh-window-title:debugger
+	'builtin' 'typeset' -gi ZSH_WINDOW_TITLE_MINIMUM_COMMAND_DURATION=${ZSH_WINDOW_TITLE_MINIMUM_COMMAND_DURATION:-$__zsh_window_title_minimum_command_duration_default}
 
 	'builtin' 'typeset' -gi ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=${ZSH_WINDOW_TITLE_DIRECTORY_DEPTH:-$__zsh_window_title_directory_depth_default}
 
 	__zsh-window-title:precmd
+
+	'builtin' 'zmodload' -F zsh/sched b:sched
 
 	'builtin' 'autoload' -U add-zsh-hook
 
@@ -96,7 +105,17 @@ __zsh-window-title:precmd() {
 	'builtin' 'emulate' -LR zsh
 	__zsh-window-title:debugger
 
-	local title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~")
+	local title
+
+	(( __zsh_window_title_sched_item )) && 'builtin' 'sched' $(( -__zsh_window_title_sched_item ))
+
+	(( ZSH_WINDOW_TITLE_DEBUG )) && 'builtin' 'sched'
+
+	'builtin' 'typeset' -gi +r __zsh_window_title_sched_item && \
+		__zsh_window_title_sched_item=0 && \
+		'builtin' 'typeset' -gir __zsh_window_title_sched_item
+
+	title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~")
 
 	'builtin' 'echo' -ne "\033]0;$title\007"
 }
@@ -105,9 +124,20 @@ __zsh-window-title:preexec() {
 	'builtin' 'emulate' -LR zsh
 	__zsh-window-title:debugger
 
-	local title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~ - ${1[(w)1]}")
+	local title
+	title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~ - ${1[(w)1]}")
 
-	'builtin' 'echo' -ne "\033]0;$title\007"
+	if (( ZSH_WINDOW_TITLE_MINIMUM_COMMAND_DURATION )); then
+		'builtin' 'sched' +$(( ZSH_WINDOW_TITLE_MINIMUM_COMMAND_DURATION )) "'builtin' 'echo' -ne '\033]0;"$title"\007'"
+
+		'builtin' 'typeset' -gi +r __zsh_window_title_sched_item && \
+			__zsh_window_title_sched_item=${#${(f)"$(sched)"}} && \
+			'builtin' 'typeset' -gir __zsh_window_title_sched_item
+
+		(( ZSH_WINDOW_TITLE_DEBUG )) && 'builtin' 'sched'
+	else
+		'builtin' 'echo' -ne '\033]0;"$title"\007'
+	fi
 }
 
 zwt() {
