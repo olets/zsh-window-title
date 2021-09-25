@@ -9,7 +9,7 @@
     - [With a shell plugin manager](#with-a-shell-plugin-manager)
     - [Manual](#manual)
 - [Usage](#usage)
-    - [macOS Terminal.app users](#macos-terminal-app-users)
+    - [macOS Terminal.app users](#macos-terminalapp-users)
     - [Oh-My-Zsh users](#oh-my-zsh-users)
     - [CLI](#cli)
 - [Options](#options)
