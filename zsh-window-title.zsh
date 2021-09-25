@@ -6,6 +6,10 @@
 typeset -g __zwt_dir && \
 	__zwt_dir=${0:A:h}
 
+typeset -g +r ZWT_VERSION >/dev/null && \
+	ZWT_VERSION=1.0.0 && \
+	typeset -gr ZWT_VERSION
+
 typeset -gi +r ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT >/dev/null && \
   ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT=2 && \
   typeset -gir ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT
@@ -23,6 +27,12 @@ __zwt:help() {
 
 __zwt:restore-defaults() {
   ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT
+}
+
+__zwt:version() {
+	emulate -LR zsh
+
+	'builtin' 'print' zwt $ZWT_VERSION
 }
 
 
@@ -84,6 +94,12 @@ zwt() {
         __zwt:restore-defaults
         return
         ;;
+			"--version"|\
+			"-v"|\
+			"version")
+				__zwt:version
+				return
+				;;
       *)
         shift
         ;;

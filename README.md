@@ -83,10 +83,12 @@ to your `~/.zshrc` file.
 ```shell
 zwt restore-defaults
     (help | --help | -h)
+    (version | --version | -v)
 ```
 
 - `zwt restore-defaults` Restore options to their defaults in the current session. See [Options](#options).
 - `zwt (help | --help | -h)` Show the manpage.
+- `zwt (version | --version | -v)` Print the command name and version.
 
 ## Options
 
