@@ -7,7 +7,7 @@
 	__zwt_dir=${0:A:h}
 
 'builtin' 'typeset' -g +r ZWT_VERSION >/dev/null && \
-	ZWT_VERSION=1.0.0 && \
+	ZWT_VERSION=1.0.1 && \
 	'builtin' 'typeset' -gr ZWT_VERSION
 
 'builtin' 'typeset' -gi +r ZSH_WINDOW_TITLE_DEBUG_DEFAULT >/dev/null && \
