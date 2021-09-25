@@ -82,6 +82,8 @@ __zsh-window-title:set-window-title-running() {
 }
 
 zwt() {
+  'builtin' 'emulate' -LR zsh
+  
   while (($# )); do
     case $1 in
 			"--help"|\
