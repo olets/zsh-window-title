@@ -10,27 +10,46 @@
 	ZWT_VERSION=1.0.0 && \
 	'builtin' 'typeset' -gr ZWT_VERSION
 
+'builtin' 'typeset' -gi +r ZSH_WINDOW_TITLE_DEBUG_DEFAULT >/dev/null && \
+  ZSH_WINDOW_TITLE_DEBUG_DEFAULT=0 && \
+  'builtin' 'typeset' -gir ZSH_WINDOW_TITLE_DEBUG_DEFAULT
+
 'builtin' 'typeset' -gi +r ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT >/dev/null && \
   ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT=2 && \
   'builtin' 'typeset' -gir ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT
 
-'builtin' 'typeset' -gi ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=${ZSH_WINDOW_TITLE_DIRECTORY_DEPTH:-$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT}
+'builtin' 'typeset' -gi +r ZWT_DEBUG_DEFAULT >/dev/null && \
+  ZWT_DEBUG_DEFAULT=0 && \
+  'builtin' 'typeset' -gir ZWT_DEBUG_DEFAULT
 
 
 # zwt CLI subcommands
 
+__zwt:debugger() {
+	'builtin' 'emulate' -LR zsh
+
+	(( ZWT_DEBUG )) && 'builtin' 'print' $funcstack[2]
+}
+
 __zwt:help() {
 	'builtin' 'emulate' -LR zsh
+  __zwt:debugger
 
 	'command' 'man' zwt 2>/dev/null || 'command' 'man' $__zwt_dir/man/man1/zwt.1
 }
 
 __zwt:restore-defaults() {
+	'builtin' 'emulate' -LR zsh
+  __zwt:debugger
+
+  ZSH_WINDOW_TITLE_DEBUG=$ZSH_WINDOW_TITLE_DEBUG_DEFAULT
   ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT
+  ZWT_DEBUG=$ZWT_DEBUG_DEFAULT
 }
 
 __zwt:version() {
 	'builtin' 'emulate' -LR zsh
+  __zwt:debugger
 
 	'builtin' 'print' zwt $ZWT_VERSION
 }
@@ -38,8 +57,15 @@ __zwt:version() {
 
 # zsh-window-title subcommands 
 
+__zsh-window-title:debugger() {
+	'builtin' 'emulate' -LR zsh
+
+	(( ZSH_WINDOW_TITLE_DEBUG )) && 'builtin' 'print' $funcstack[2]
+}
+
 __zsh-window-title:add-hooks() {
   'builtin' 'emulate' -LR zsh
+  __zsh-window-title:debugger
 
   # update window title before drawing the prompt
   add-zsh-hook precmd __zsh-window-title:set-window-title-idle
@@ -51,19 +77,27 @@ __zsh-window-title:add-hooks() {
 __zsh-window-title:init() {
   'builtin' 'emulate' -LR zsh
 
+  'builtin' 'typeset' -gi ZWT_DEBUG >/dev/null && \
+		ZWT_DEBUG=${ZWT_DEBUG:-$ZWT_DEBUG_DEFAULT}
+
+	typeset -gi ZSH_WINDOW_TITLE_DEBUG >/dev/null && \
+		ZSH_WINDOW_TITLE_DEBUG=${ZSH_WINDOW_TITLE_DEBUG:-$ZSH_WINDOW_TITLE_DEBUG_DEFAULT}
+
+  __zsh-window-title:debugger
+
+  'builtin' 'typeset' -gi ZSH_WINDOW_TITLE_DIRECTORY_DEPTH && \
+    ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=${ZSH_WINDOW_TITLE_DIRECTORY_DEPTH:-$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT}
+
   __zsh-window-title:set-window-title-idle
 
-  # enable hooks
   'builtin' 'autoload' -U add-zsh-hook
   
   __zsh-window-title:add-hooks
 }
 
 __zsh-window-title:set-window-title-idle() {
-  # set the window title to
-  # <parent dir>/<current dir>
-
   'builtin' 'emulate' -LR zsh
+  __zsh-window-title:debugger
 
   local title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~")
 
@@ -71,10 +105,8 @@ __zsh-window-title:set-window-title-idle() {
 }
 
 __zsh-window-title:set-window-title-running() {
-  # set the window title to
-  # <parent dir>/<current dir> - <first word of active command>
-
   'builtin' 'emulate' -LR zsh
+  __zsh-window-title:debugger
 
   local title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~ - ${1[(w)1]}")
 
@@ -82,8 +114,9 @@ __zsh-window-title:set-window-title-running() {
 }
 
 zwt() {
-  'builtin' 'emulate' -LR zsh
-  
+	'builtin' 'emulate' -LR zsh
+  __zwt:debugger
+
   while (($# )); do
     case $1 in
 			"--help"|\

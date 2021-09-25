@@ -94,7 +94,9 @@ zwt restore-defaults
 
 Variable | Type | Default | Use
 ---|---|---|---
-ZSH_WINDOW_TITLE_DIRECTORY_DEPTH | integer | 2 | How many directory levels to display
+ZSH_WINDOW_TITLE_DIRECTORY_DEPTH | integer | `2` | How many directory levels to display
+ZWT_DEBUG | integer | `0` | If non-zero, print CLI debugging messages
+ZSH_WINDOW_TITLE_DEBUG | integer | `0` | If non-zero, print hook debugging messages
 
 ## Contributing
 
