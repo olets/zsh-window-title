@@ -80,13 +80,13 @@ to your `~/.zshrc` file.
 
 ### CLI
 
-You can run
-
 ```shell
-zsh-window-title restore-defaults
+zwt restore-defaults
+    (help | --help | -h)
 ```
 
-to restore options to their defaults in the current session. See [Options](#options).
+- `zwt restore-defaults` Restore options to their defaults in the current session. See [Options](#options).
+- `zwt (help | --help | -h)` Show the manpage.
 
 ## Options
 

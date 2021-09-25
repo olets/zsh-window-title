@@ -3,8 +3,30 @@
 # A zsh plugin for informative terminal window titles
 # Copyright © 2021 Henry Bley-Vroman
 
-typeset -gir ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT=2
+typeset -g __zwt_dir && \
+	__zwt_dir=${0:A:h}
+
+typeset -gi +r ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT >/dev/null && \
+  ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT=2 && \
+  typeset -gir ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT
+
 typeset -gi ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=${ZSH_WINDOW_TITLE_DIRECTORY_DEPTH:-$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT}
+
+
+# zwt CLI subcommands
+
+__zwt:help() {
+	'builtin' 'emulate' -LR zsh
+
+	'command' 'man' zwt 2>/dev/null || 'command' 'man' $__zwt_dir/man/man1/zwt.1
+}
+
+__zwt:restore-defaults() {
+  ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT
+}
+
+
+# zsh-window-title subcommands 
 
 __zsh-window-title:add-hooks() {
   'builtin' 'emulate' -LR zsh
@@ -25,10 +47,6 @@ __zsh-window-title:init() {
   'builtin' 'autoload' -U add-zsh-hook
   
   __zsh-window-title:add-hooks
-}
-
-__zsh-window-title:restore-defaults() {
-  ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT
 }
 
 __zsh-window-title:set-window-title-idle() {
@@ -56,8 +74,14 @@ __zsh-window-title:set-window-title-running() {
 zwt() {
   while (($# )); do
     case $1 in
+			"--help"|\
+			"-h"|\
+			"help")
+				__zwt:help
+				return
+				;;
       "restore-defaults")
-        __zsh-window-title:restore-defaults
+        __zwt:restore-defaults
         return
         ;;
       *)
