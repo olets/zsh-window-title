@@ -85,6 +85,11 @@ __zsh-window-title:init() {
 
 	'builtin' 'typeset' -gi ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=${ZSH_WINDOW_TITLE_DIRECTORY_DEPTH:-$__zsh_window_title_directory_depth_default}
 
+	source $__zwt_dir/zsh-async/async.zsh
+	async_init
+	async_start_worker __zsh_window_title_worker -n
+	async_register_callback __zsh_window_title_worker __zsh-window-title:callback
+
 	__zsh-window-title:precmd
 
 	'builtin' 'autoload' -U add-zsh-hook
@@ -98,16 +103,35 @@ __zsh-window-title:precmd() {
 
 	local title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~")
 
+	async_flush_jobs __zsh_window_title_worker
+
 	'builtin' 'echo' -ne "\033]0;$title\007"
+}
+
+__zsh-window-title:callback() {
+	'builtin' 'emulate' -LR zsh
+	__zsh-window-title:debugger
+echo callback
+}
+
+__zsh-window-title:job() {
+	'builtin' 'emulate' -LR zsh
+	__zsh-window-title:debugger
+	echo job
+	# local title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~ - $1")
+	# echo added
+	# # sleep 3
+	# 'builtin' 'echo' -ne "\033]0;$title\007"
 }
 
 __zsh-window-title:preexec() {
 	'builtin' 'emulate' -LR zsh
 	__zsh-window-title:debugger
 
-	local title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~ - ${1[(w)1]}")
+	# local cmd
+	# cmd=${1[(w)1]}
 
-	'builtin' 'echo' -ne "\033]0;$title\007"
+	async_job __zsh_window_title_worker __zsh-window-title:job #"$cmd"
 }
 
 zwt() {
