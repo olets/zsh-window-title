@@ -10,17 +10,17 @@
 	ZWT_VERSION=1.0.1 && \
 	'builtin' 'typeset' -gr ZWT_VERSION
 
-'builtin' 'typeset' -gi +r ZSH_WINDOW_TITLE_DEBUG_DEFAULT >/dev/null && \
-	ZSH_WINDOW_TITLE_DEBUG_DEFAULT=0 && \
-	'builtin' 'typeset' -gir ZSH_WINDOW_TITLE_DEBUG_DEFAULT
+'builtin' 'typeset' -gi +r __zsh_window_title_debug_default >/dev/null && \
+	__zsh_window_title_debug_default=0 && \
+	'builtin' 'typeset' -gir __zsh_window_title_debug_default
 
-'builtin' 'typeset' -gi +r ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT >/dev/null && \
-	ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT=2 && \
-	'builtin' 'typeset' -gir ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT
+'builtin' 'typeset' -gi +r __zsh_window_title_directory_depth_default >/dev/null && \
+	__zsh_window_title_directory_depth_default=2 && \
+	'builtin' 'typeset' -gir __zsh_window_title_directory_depth_default
 
-'builtin' 'typeset' -gi +r ZWT_DEBUG_DEFAULT >/dev/null && \
-	ZWT_DEBUG_DEFAULT=0 && \
-	'builtin' 'typeset' -gir ZWT_DEBUG_DEFAULT
+'builtin' 'typeset' -gi +r __zwt_debug_default >/dev/null && \
+	__zwt_debug_default=0 && \
+	'builtin' 'typeset' -gir __zwt_debug_default
 
 
 # zwt CLI subcommands
@@ -42,9 +42,9 @@ __zwt:restore-defaults() {
 	'builtin' 'emulate' -LR zsh
 	__zwt:debugger
 
-	ZSH_WINDOW_TITLE_DEBUG=$ZSH_WINDOW_TITLE_DEBUG_DEFAULT
-	ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT
-	ZWT_DEBUG=$ZWT_DEBUG_DEFAULT
+	ZSH_WINDOW_TITLE_DEBUG=$__zsh_window_title_debug_default
+	ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=$__zsh_window_title_directory_depth_default
+	ZWT_DEBUG=$__zwt_debug_default
 }
 
 __zwt:version() {
@@ -77,13 +77,13 @@ __zsh-window-title:add-hooks() {
 __zsh-window-title:init() {
 	'builtin' 'emulate' -LR zsh
 
-	'builtin' 'typeset' -gi ZWT_DEBUG=${ZWT_DEBUG:-$ZWT_DEBUG_DEFAULT}
+	'builtin' 'typeset' -gi ZWT_DEBUG=${ZWT_DEBUG:-$__zwt_debug_default}
 
-	'builtin' 'typeset' -gi ZSH_WINDOW_TITLE_DEBUG=${ZSH_WINDOW_TITLE_DEBUG:-$ZSH_WINDOW_TITLE_DEBUG_DEFAULT}
+	'builtin' 'typeset' -gi ZSH_WINDOW_TITLE_DEBUG=${ZSH_WINDOW_TITLE_DEBUG:-$__zsh_window_title_debug_default}
 
 	__zsh-window-title:debugger
 
-	'builtin' 'typeset' -gi ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=${ZSH_WINDOW_TITLE_DIRECTORY_DEPTH:-$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH_DEFAULT}
+	'builtin' 'typeset' -gi ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=${ZSH_WINDOW_TITLE_DIRECTORY_DEPTH:-$__zsh_window_title_directory_depth_default}
 
 	__zsh-window-title:precmd
 
