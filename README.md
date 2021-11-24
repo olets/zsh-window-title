@@ -40,12 +40,6 @@ brew install olets/tap/zsh-window-title
     exec zsh
     ```
 
-If you're new to zsh plugin management and don't want to go down the rabbit hole of choices, try what —as of this writing— I use: zinit, with the following in my `~/.zshrc`:
-
-```shell
-zinit light olets/zsh-window-title
-```
-
 ### Manual
 
 1. Download [the latest `zsh-window-title` binary](https://github.com/olets/zsh-window-title/releases/latest)
