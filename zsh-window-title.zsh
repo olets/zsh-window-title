@@ -18,6 +18,14 @@
 	__zsh_window_title_directory_depth_default=2 && \
 	'builtin' 'typeset' -gir __zsh_window_title_directory_depth_default
 
+'builtin' 'typeset' -g +r __zsh_window_title_idle_default >/dev/null && \
+	__zsh_window_title_idle_default="%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~" && \
+	'builtin' 'typeset' -gr __zsh_window_title_idle_default
+
+'builtin' 'typeset' -g +r __zsh_window_title_active_default >/dev/null && \
+	__zsh_window_title_active_default="%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~ - ${1[(w)1]}" && \
+	'builtin' 'typeset' -gr __zsh_window_title_active_default
+
 'builtin' 'typeset' -gi +r __zwt_debug_default >/dev/null && \
 	__zwt_debug_default=0 && \
 	'builtin' 'typeset' -gir __zwt_debug_default
@@ -44,6 +52,8 @@ __zwt:restore-defaults() {
 
 	ZSH_WINDOW_TITLE_DEBUG=$__zsh_window_title_debug_default
 	ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=$__zsh_window_title_directory_depth_default
+	ZSH_WINDOW_TITLE_IDLE=$__zsh_window_title_idle_default
+	ZSH_WINDOW_TITLE_ACTIVE=$__zsh_window_title_active_default
 	ZWT_DEBUG=$__zwt_debug_default
 }
 
@@ -85,6 +95,10 @@ __zsh-window-title:init() {
 
 	'builtin' 'typeset' -gi ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=${ZSH_WINDOW_TITLE_DIRECTORY_DEPTH:-$__zsh_window_title_directory_depth_default}
 
+	'builtin' 'typeset' -g ZSH_WINDOW_TITLE_IDLE=${ZSH_WINDOW_TITLE_IDLE:-$__zsh_window_title_idle_default}
+
+	'builtin' 'typeset' -g ZSH_WINDOW_TITLE_ACTIVE=${ZSH_WINDOW_TITLE_ACTIVE:-$__zsh_window_title_active_default}
+
 	__zsh-window-title:precmd
 
 	'builtin' 'autoload' -U add-zsh-hook
@@ -96,7 +110,7 @@ __zsh-window-title:precmd() {
 	'builtin' 'emulate' -LR zsh
 	__zsh-window-title:debugger
 
-	local title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~")
+	local title=$(print -P "$ZSH_WINDOW_TITLE_IDLE")
 
 	'builtin' 'echo' -ne "\033]0;$title\007"
 }
@@ -105,7 +119,7 @@ __zsh-window-title:preexec() {
 	'builtin' 'emulate' -LR zsh
 	__zsh-window-title:debugger
 
-	local title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~ - ${1[(w)1]}")
+	local title=$(print -P "$ZSH_WINDOW_TITLE_ACTIVE")
 
 	'builtin' 'echo' -ne "\033]0;$title\007"
 }
