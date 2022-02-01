@@ -92,9 +92,16 @@ Variable | Type | Default | Use
 ---|---|---|---
 ZSH_WINDOW_TITLE_DEBUG | integer | `0` | If non-zero, print hook debugging messages
 ZSH_WINDOW_TITLE_DIRECTORY_DEPTH | integer | `2` | How many directory levels to display
+ZWT_DEBUG | integer | `0` | If non-zero, print CLI debugging messages
+
+### Expert Options
+
+These options allow you to completely customize the window titles. However you need to have a decent understanding of ZSH's string formatting and it's
+highly recommended that you just change the prefix and suffix instead, as that should allow you to achieve what you want in most cases.
+
+---|---|---|---
 ZSH_WINDOW_TITLE_IDLE | format string | `'%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~'` | The format for the window title when **no** process is running
 ZSH_WINDOW_TITLE_ACTIVE | format string | `'%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~ - ${1[(w)1]}'` | The format for the window title when **a** process is running
-ZWT_DEBUG | integer | `0` | If non-zero, print CLI debugging messages
 
 It is highly recommended single quoting the values for `ZSH_WINDOW_TITLE_IDLE` and `ZSH_WINDOW_TITLE_ACTIVE` when customizing them, as that prevents parameter
 expansion during the initializing of the variables. The values will be parameter expanded right before being interpreted by `print -P`.  
