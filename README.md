@@ -99,6 +99,7 @@ ZWT_DEBUG | integer | `0` | If non-zero, print CLI debugging messages
 These options allow you to completely customize the window titles. However you need to have a decent understanding of ZSH's string formatting and it's
 highly recommended that you just change the prefix and suffix instead, as that should allow you to achieve what you want in most cases.
 
+Variable | Type | Default | Use
 ---|---|---|---
 ZSH_WINDOW_TITLE_IDLE | format string | `'%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~'` | The format for the window title when **no** process is running
 ZSH_WINDOW_TITLE_ACTIVE | format string | `'%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~ - ${1[(w)1]}'` | The format for the window title when **a** process is running
