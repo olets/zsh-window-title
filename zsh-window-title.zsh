@@ -124,18 +124,18 @@ __zsh-window-title:precmd() {
 	'builtin' 'emulate' -LR zsh
 	__zsh-window-title:debugger
 
-	local title=$(print -P "${(e)ZSH_WINDOW_TITLE_IDLE}")
-
-	'builtin' 'echo' -ne "\033]0;$title\007"
+	'builtin' 'echo' -ne '\033]0;'
+	'builtin' 'print' -P "${(e)ZSH_WINDOW_TITLE_IDLE}"
+	'builtin' 'echo' -ne '\007'
 }
 
 __zsh-window-title:preexec() {
 	'builtin' 'emulate' -LR zsh
 	__zsh-window-title:debugger
 
-	local title=$(print -P "${(e)ZSH_WINDOW_TITLE_ACTIVE}")
-
-	'builtin' 'echo' -ne "\033]0;$title\007"
+	'builtin' 'echo' -ne '\033]0;'
+	'builtin' 'print' -P "${(e)ZSH_WINDOW_TITLE_ACTIVE}"
+	'builtin' 'echo' -ne '\007'
 }
 
 zwt() {
