@@ -92,13 +92,25 @@ __zsh-window-title:init() {
 	__zsh-window-title:add-hooks
 }
 
+__zsh-window-title:set-title() {
+	case $TERM in
+		screen*|\
+		tmux*)
+			'builtin' 'echo' -ne "\033k$1\033\\"
+			;;
+		*)
+			'builtin' 'echo' -ne "\033]0;$1\007"
+			;;
+	esac
+}
+
 __zsh-window-title:precmd() {
 	'builtin' 'emulate' -LR zsh
 	__zsh-window-title:debugger
 
 	local title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~")
 
-	'builtin' 'echo' -ne "\033]0;$title\007"
+    __zsh-window-title:set-title $title
 }
 
 __zsh-window-title:preexec() {
@@ -107,7 +119,7 @@ __zsh-window-title:preexec() {
 
 	local title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~ - ${1[(w)1]}")
 
-	'builtin' 'echo' -ne "\033]0;$title\007"
+    __zsh-window-title:set-title $title
 }
 
 zwt() {
