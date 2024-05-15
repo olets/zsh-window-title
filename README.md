@@ -57,6 +57,11 @@ Once zsh-window-title is installed, your terminal window title will be
 
 - `<parent dir>/<current dir>` when nothing's running
 - `<parent dir>/<current dir> - <first word of last run command>` when something's running
+- `<parent dir>/<current dir> - <first two words of last run command>` when something's running and the first word of the last run command is one of the configured prefixes.
+
+For example, after running `sleep 2` in the directory `~/olets/zsh-window-title`, the window title will be `olets/zsh-window-title - sleep`. After running `sudo sleep 2`, it will be `olets/zsh-window-title - sudo sleep`.
+
+The number of path segments to show is configurable, and so are the prefixes. See [Options](#options).
 
 ### macOS Terminal.app users
 
@@ -90,6 +95,7 @@ zwt restore-defaults
 
 Variable | Type | Default | Use
 ---|---|---|---
+ZSH_WINDOW_TITLE_COMMAND_PREFIXES | array | `( sudo )` |
 ZSH_WINDOW_TITLE_DEBUG | integer | `0` | If non-zero, print hook debugging messages
 ZSH_WINDOW_TITLE_DIRECTORY_DEPTH | integer | `2` | How many directory levels to display
 ZWT_DEBUG | integer | `0` | If non-zero, print CLI debugging messages

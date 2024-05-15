@@ -10,6 +10,10 @@
 	ZWT_VERSION=1.0.2 && \
 	'builtin' 'typeset' -gr ZWT_VERSION
 
+'builtin' 'typeset' -ga +r __zsh_window_title_command_prefixes >/dev/null && \
+	__zsh_window_title_command_prefixes=( sudo ) && \
+	'builtin' 'typeset' -gar __zsh_window_title_command_prefixes
+
 'builtin' 'typeset' -gi +r __zsh_window_title_debug_default >/dev/null && \
 	__zsh_window_title_debug_default=0 && \
 	'builtin' 'typeset' -gir __zsh_window_title_debug_default
@@ -42,6 +46,7 @@ __zwt:restore-defaults() {
 	'builtin' 'emulate' -LR zsh
 	__zwt:debugger
 
+	ZSH_WINDOW_TITLE_COMMAND_PREFIXES=$__zsh_window_title_command_prefixes
 	ZSH_WINDOW_TITLE_DEBUG=$__zsh_window_title_debug_default
 	ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=$__zsh_window_title_directory_depth_default
 	ZWT_DEBUG=$__zwt_debug_default
@@ -74,6 +79,13 @@ __zsh-window-title:add-hooks() {
 	add-zsh-hook preexec __zsh-window-title:preexec
 }
 
+__zsh-window-title:get_dir() {
+	'builtin' 'emulate' -LR zsh
+	__zsh-window-title:debugger
+
+	echo ${(%):-%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~}
+}
+
 __zsh-window-title:init() {
 	'builtin' 'emulate' -LR zsh
 
@@ -82,6 +94,10 @@ __zsh-window-title:init() {
 	'builtin' 'typeset' -gi ZSH_WINDOW_TITLE_DEBUG=${ZSH_WINDOW_TITLE_DEBUG:-$__zsh_window_title_debug_default}
 
 	__zsh-window-title:debugger
+
+	[[ ${(t)ZSH_WINDOW_TITLE_COMMAND_PREFIXES} != array ]] && \
+		ZSH_WINDOW_TITLE_COMMAND_PREFIXES=( $__zsh_window_title_command_prefixes )
+	'builtin' 'typeset' -ga ZSH_WINDOW_TITLE_COMMAND_PREFIXES
 
 	'builtin' 'typeset' -gi ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=${ZSH_WINDOW_TITLE_DIRECTORY_DEPTH:-$__zsh_window_title_directory_depth_default}
 
@@ -96,18 +112,18 @@ __zsh-window-title:precmd() {
 	'builtin' 'emulate' -LR zsh
 	__zsh-window-title:debugger
 
-	local title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~")
-
-	'builtin' 'echo' -ne "\033]0;$title\007"
+	'builtin' 'echo' -ne "\033]0;$(__zsh-window-title:get_dir)\007"
 }
 
 __zsh-window-title:preexec() {
 	'builtin' 'emulate' -LR zsh
 	__zsh-window-title:debugger
 
-	local title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~ - ${1[(w)1]}")
+	local cmd=${1[(w)1]}
 
-	'builtin' 'echo' -ne "\033]0;$title\007"
+	(( ZSH_WINDOW_TITLE_COMMAND_PREFIXES[(Ie)$cmd] )) && cmd+=" ${1[(w)2]}"
+
+	'builtin' 'echo' -ne "\033]0;$(__zsh-window-title:get_dir) - $cmd\007"
 }
 
 zwt() {
