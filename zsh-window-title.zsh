@@ -123,7 +123,7 @@ __zsh-window-title:update() {
     
     # Update title for tmux sessions if tmux is running
     if [ -n "$TMUX" ]; then
-        'builtin' 'tmux' rename-window "$title_content"
+        'tmux' rename-window "$title_content"
     fi
 }
 
