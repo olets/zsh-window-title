@@ -13,7 +13,6 @@ jobs:
           formula-name: zsh-window-title
           formula-path: zsh-window-title.rb
           homebrew-tap: olets/homebrew-tap
-          download-url: https://github.com/olets/zsh-window-title.git
           commit-message: |
             feat({{formulaName}}): publish {{version}}
 
