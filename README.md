@@ -61,6 +61,8 @@ Once zsh-window-title is installed, your terminal window title will be
 
 For example, after running `sleep 2` in the directory `~/olets/zsh-window-title`, the window title will be `olets/zsh-window-title - sleep`. After running `sudo sleep 2`, it will be `olets/zsh-window-title - sudo sleep`.
 
+Note that the command is not parsed. If you run `echo hello world && sleep 10`, the window title will show `echo` for the duration, not `echo` for a moment and then `sleep`.
+
 The number of path segments to show is configurable, and so are the prefixes. See [Options](#options).
 
 ### macOS Terminal.app users
