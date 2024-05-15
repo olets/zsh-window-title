@@ -108,11 +108,27 @@ __zsh-window-title:init() {
     __zsh-window-title:add-hooks
 }
 
+__zsh-window-title:update() {
+    'builtin' 'emulate' -LR zsh
+    __zsh-window-title:debugger
+
+    local title_content="$1"
+    
+    'builtin' 'print' -Pn "\033]2;$title_content\033\\"
+    'builtin' 'print' -Pn "\033k$title_content\033\\"
+    'builtin' 'print' -Pn "\033]0;$title_content\033\\"
+    
+    if [ -n "$TMUX" ]; then
+        'builtin' 'tmux' rename-window "$title_content"
+    fi
+}
+
 __zsh-window-title:precmd() {
     'builtin' 'emulate' -LR zsh
     __zsh-window-title:debugger
 
-    'builtin' 'echo' -ne "\033]0;$(__zsh-window-title:get_dir)\007"
+    local current_dir=$(print -P "%15<..<%~")
+    __zsh-window-title:update "$current_dir"
 }
 
 __zsh-window-title:preexec() {
@@ -123,7 +139,8 @@ __zsh-window-title:preexec() {
 
     (( ZSH_WINDOW_TITLE_COMMAND_PREFIXES[(Ie)$cmd] )) && cmd+=" ${1[(w)2]}"
 
-    'builtin' 'echo' -ne "\033]0;$(__zsh-window-title:get_dir) - $cmd\007"
+    local current_dir=$(print -P "%15<..<%~")
+    __zsh-window-title:update "$current_dir - $cmd"
 }
 
 zwt() {
