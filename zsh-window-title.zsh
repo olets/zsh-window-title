@@ -74,6 +74,13 @@ __zsh-window-title:add-hooks() {
 	add-zsh-hook preexec __zsh-window-title:preexec
 }
 
+__zsh-window-title:get_dir() {
+	'builtin' 'emulate' -LR zsh
+	__zsh-window-title:debugger
+
+	echo ${(%):-%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~}
+}
+
 __zsh-window-title:init() {
 	'builtin' 'emulate' -LR zsh
 
@@ -96,18 +103,14 @@ __zsh-window-title:precmd() {
 	'builtin' 'emulate' -LR zsh
 	__zsh-window-title:debugger
 
-	local title=${(%):-%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~}
-
-	'builtin' 'echo' -ne "\033]0;$title\007"
+	'builtin' 'echo' -ne "\033]0;$(__zsh-window-title:get_dir)\007"
 }
 
 __zsh-window-title:preexec() {
 	'builtin' 'emulate' -LR zsh
 	__zsh-window-title:debugger
 
-	local title=${(%):-%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~ - ${1[(w)1]}}
-
-	'builtin' 'echo' -ne "\033]0;$title\007"
+	'builtin' 'echo' -ne "\033]0;$(__zsh-window-title:get_dir) - ${1[(w)1]}\007"
 }
 
 zwt() {
