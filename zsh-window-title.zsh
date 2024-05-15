@@ -115,16 +115,27 @@ __zsh-window-title:preexec() {
 __zsh-window-title:update() {
     local title_content="$1"
     if [[ -n "$2" ]]; then
-        title_content="$title_content $2"  # Append command if provided
+        title_content="$title_content $2"
     fi
 
-    print -Pn "\033]2;$title_content\033\\"  # Set tmux status bar title
-    print -Pn "\033k$title_content\033\\"  # Set tmux window name
-    print -Pn "\033]0;$title_content\033\\"  # Set terminal title (xterm compatible)    
+    # Set terminal title (xterm compatible)
+    printf "\033]0;%s\007" "$title_content"
+    printf "\033]0;%s\033\\" "$title_content"
+
+    # Set tmux status bar title (xterm compatible)
+    printf "\033]2;%s\007" "$title_content"
+    printf "\033]2;%s\033\\" "$title_content"
+
+    # Set screen window name (specific to GNU Screen)
+    printf "\033k%s\033\007" "$title_content"
+    printf "\033k%s\033\\" "$title_content"
+
+    # Rename tmux window
     if [ -n "$TMUX" ]; then
-        tmux rename-window "$title_content"  # Rename tmux window
+        tmux rename-window "$title_content"
     fi
 }
+
 
 __zsh-window-title:chpwd-update() {
     local current_dir=$(print -P "%15<..<%~")  # Truncated current directory
