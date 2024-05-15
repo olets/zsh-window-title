@@ -108,45 +108,23 @@ __zsh-window-title:init() {
     __zsh-window-title:add-hooks
 }
 
-__zsh-window-title:update() {
-    'builtin' 'emulate' -LR zsh
-    __zsh-window-title:debugger
-
-    local title_content="$1"
-    
-    # Update title for xterm-compatible terminals
-    'builtin' 'print' "\033]2;$title_content\033\\"
-    # Update title for screen sessions
-    'builtin' 'print' "\033k$title_content\033\\"
-    # Update title for xterm-compatible terminals
-    'builtin' 'print' "\033]0;$title_content\033\\"
-    
-    # Update title for tmux sessions if tmux is running
-    if [ -n "$TMUX" ]; then
-        'builtin' 'tmux' rename-window "$title_content"
-    fi
-}
-
 __zsh-window-title:precmd() {
     'builtin' 'emulate' -LR zsh
     __zsh-window-title:debugger
 
-    local current_dir=$(print -P "%15<..<%~")
-    __zsh-window-title:update "$current_dir"
+    'builtin' 'echo' -ne "\033]0;$(__zsh-window-title:get_dir)\007"
 }
-
 
 __zsh-window-title:preexec() {
     'builtin' 'emulate' -LR zsh
     __zsh-window-title:debugger
 
     local cmd=${1[(w)1]}
-    (( ZSH_WINDOW_TITLE_COMMAND_PREFIXES[(Ie)$cmd] )) && cmd+=" ${1[(w)2]}"
-    
-    local current_dir=$(print -P "%15<..<%~")
-    __zsh-window-title:update "$current_dir - $cmd"
-}
 
+    (( ZSH_WINDOW_TITLE_COMMAND_PREFIXES[(Ie)$cmd] )) && cmd+=" ${1[(w)2]}"
+
+    'builtin' 'echo' -ne "\033]0;$(__zsh-window-title:get_dir) - $cmd\007"
+}
 
 zwt() {
     'builtin' 'emulate' -LR zsh
