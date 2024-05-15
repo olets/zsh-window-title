@@ -1,3 +1,12 @@
+# [v1.1.0](https://github.com/olets/zsh-window-title/compare/v1.0.2...v1.1.0) (2024-05-15)
+
+
+### Features
+
+* **prefixes:** support + new ZSH_WINDOW_TITLE_COMMAND_PREFIXES [[#6](https://github.com/olets/zsh-window-title/issues/6)] ([2b1c741](https://github.com/olets/zsh-window-title/commit/2b1c74107035ade8148d51d666fd1ce0dcff435e))
+
+
+
 # [v1.0.2](https://github.com/olets/zsh-window-title/compare/v1.0.1...v1.0.2) (2021-09-27)
 
 
