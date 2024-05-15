@@ -1,3 +1,7 @@
+# [v1.1.2](https://github.com/olets/zsh-window-title/compare/v1.1.1...v1.1.2) (2024-05-15)
+
+Continued GitHub Actions work.
+
 # [v1.1.1](https://github.com/olets/zsh-window-title/compare/v1.1.0...v1.1.1) (2024-05-15)
 
 Fix GitHub Actions.
