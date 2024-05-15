@@ -96,7 +96,7 @@ __zsh-window-title:precmd() {
 	'builtin' 'emulate' -LR zsh
 	__zsh-window-title:debugger
 
-	local title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~")
+	local title=${(%):-%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~}
 
 	'builtin' 'echo' -ne "\033]0;$title\007"
 }
@@ -105,7 +105,7 @@ __zsh-window-title:preexec() {
 	'builtin' 'emulate' -LR zsh
 	__zsh-window-title:debugger
 
-	local title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~ - ${1[(w)1]}")
+	local title=${(%):-%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~ - ${1[(w)1]}}
 
 	'builtin' 'echo' -ne "\033]0;$title\007"
 }
