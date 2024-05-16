@@ -115,11 +115,11 @@ __zsh-window-title:update() {
     local title_content="$1"
     
     # Update title for xterm-compatible terminals
-    'builtin' 'print' "\033]2;$title_content\033\\"
+    'builtin' 'print' -Pn "\033]2;$title_content\033\\"
     # Update title for screen sessions
-    'builtin' 'print' "\033k$title_content\033\\"
+    'builtin' 'print' -Pn "\033k$title_content\033\\"
     # Update title for xterm-compatible terminals
-    'builtin' 'print' "\033]0;$title_content\033\\"
+    'builtin' 'print' -Pn "\033]0;$title_content\033\\"
     
     # Update title for tmux sessions if tmux is running
     if [ -n "$TMUX" ]; then
