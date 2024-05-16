@@ -120,8 +120,12 @@ __zsh-window-title:preexec() {
 	__zsh-window-title:debugger
 
 	local cmd=${1[(w)1]}
+	local -i is_prefixed=$ZSH_WINDOW_TITLE_COMMAND_PREFIXES[(Ie)$cmd] 2>/dev/null
+	local second_word=${1[(w)2]}
 
-	(( ZSH_WINDOW_TITLE_COMMAND_PREFIXES[(Ie)$cmd] )) && cmd+=" ${1[(w)2]}"
+	(( is_prefixed )) && \
+		[[ -n $second_word ]] && \
+			cmd+=" $second_word"
 
 	'builtin' 'echo' -ne "\033]0;$(__zsh-window-title:get_dir) - $cmd\007"
 }
