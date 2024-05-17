@@ -116,10 +116,10 @@ __zsh-window-title:update() {
     hostname=$(hostname)
     local title_content="$1"
     local pane_content="$username@$hostname - $1"
-
+    
+    'builtin' 'print' -Pn -- "\033k$title_content\033\\"
     'builtin' 'print' -Pn -- "\033]2;$pane_content\033\\"
     'builtin' 'print' -Pn -- "\033]0;$pane_content\033\\"
-    'builtin' 'print' -Pn -- "\033k$title_content\033\\"
     if [ -n "$TMUX" ]; then
         'tmux' rename-window "$title_content"
     fi
