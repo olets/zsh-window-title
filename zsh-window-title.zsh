@@ -109,29 +109,29 @@ __zsh-window-title:init() {
 }
 
 __zsh-window-title:update() {
-	'builtin' 'emulate' -LR zsh
-	__zsh-window-title:debugger
+    'builtin' 'emulate' -LR zsh
+    __zsh-window-title:debugger
 
-	username=$(whoami)
-	hostname=$(hostname)
-	local title_content="$1"
-	local pane_content="$username@$hostname - $1"
+    username=$(whoami)
+    hostname=$(hostname)
+    local title_content="$1"
+    local pane_content="$username@$hostname - $1"
+    local truncated_title=$(print -P "%20<..<${title_content}")
 
-	'builtin' 'print' -Pn -- "\033k$truncated_title\033\\"
-	'builtin' 'print' -Pn -- "\033]2;$pane_content\033\\"
-	'builtin' 'print' -Pn -- "\033]0;$pane_content\033\\"
-	if [ -n "$TMUX" ]; then
-	    'tmux' rename-window "$truncated_title"
-	fi
+    'builtin' 'print' -Pn -- "\033k$truncated_title\033\\"
+    'builtin' 'print' -Pn -- "\033]2;$pane_content\033\\"
+    'builtin' 'print' -Pn -- "\033]0;$pane_content\033\\"
+    if [ -n "$TMUX" ]; then
+        'tmux' rename-window "$truncated_title"
+    fi
 }
 
 __zsh-window-title:precmd() {
 	'builtin' 'emulate' -LR zsh
 	__zsh-window-title:debugger
 
-	local current_dir=$(print -P "%15<..<%~")
+	local current_dir=$(print -P "%~")
 	__zsh-window-title:update "$current_dir"
-
 }
 
 __zsh-window-title:preexec() {
@@ -146,8 +146,9 @@ __zsh-window-title:preexec() {
 		[[ -n $second_word ]] && \
 			cmd+=" $second_word"
 
-	local current_dir=$(print -P "%15<..<%~")
-	__zsh-window-title:update "$current_dir - $cmd"
+	local current_dir=$(print -P "%~")
+    local truncated_dir=$(print -P "%20<..<${current_dir}")
+    __zsh-window-title:update "$truncated_dir - $cmd"
 }
 
 zwt() {
