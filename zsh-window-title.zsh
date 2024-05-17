@@ -114,18 +114,18 @@ __zsh-window-title:update() {
 
     username=$(whoami)
     hostname=$(hostname)
-    local pane_content="$1"
-    local title_content="$username@$hostname - $1"
+    local title_content="$1"
+    local pane_content="$username@$hostname - $1"
 
     # Update title for xterm-compatible terminals
-    'builtin' 'print' -Pn -- "\033]2;$title_content\033\\"
+    'builtin' 'print' -Pn -- "\033]2;$pane_content\033\\"
     # Update title for xterm-compatible terminals
-    'builtin' 'print' -Pn -- "\033]0;$title_content\033\\"
+    'builtin' 'print' -Pn -- "\033]0;$pane_content\033\\"
     # Update title for screen sessions
-    'builtin' 'print' -Pn -- "\033k$pane_content\033\\"
+    'builtin' 'print' -Pn -- "\033k$title_content\033\\"
     # Update title for tmux sessions if tmux is running
     if [ -n "$TMUX" ]; then
-        'tmux' rename-window "$pane_content"
+        'tmux' rename-window "$title_content"
     fi
 }
 
