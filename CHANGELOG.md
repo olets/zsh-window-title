@@ -1,3 +1,29 @@
+# [v1.1.3](https://github.com/olets/zsh-window-title/compare/v1.1.2...v1.1.3) (2024-05-16)
+
+
+### Bug Fixes
+
+* **preexec:** play nice with inline zsh scripts... ([b1ddc56](https://github.com/olets/zsh-window-title/commit/b1ddc5637abf0ff06f4cddb5b0b75575d921ef70))
+
+
+
+# [v1.1.2](https://github.com/olets/zsh-window-title/compare/v1.1.1...v1.1.2) (2024-05-15)
+
+Continued GitHub Actions work.
+
+# [v1.1.1](https://github.com/olets/zsh-window-title/compare/v1.1.0...v1.1.1) (2024-05-15)
+
+Fix GitHub Actions.
+
+# [v1.1.0](https://github.com/olets/zsh-window-title/compare/v1.0.2...v1.1.0) (2024-05-15)
+
+
+### Features
+
+* **prefixes:** support + new ZSH_WINDOW_TITLE_COMMAND_PREFIXES [[#6](https://github.com/olets/zsh-window-title/issues/6)] ([2b1c741](https://github.com/olets/zsh-window-title/commit/2b1c74107035ade8148d51d666fd1ce0dcff435e))
+
+
+
 # [v1.0.2](https://github.com/olets/zsh-window-title/compare/v1.0.1...v1.0.2) (2021-09-27)
 
 

@@ -1,0 +1,23 @@
+name: Bump Homebrew Formula on Release Publication
+
+on:
+  release:
+    types: [released]
+jobs:
+  homebrew:
+    name: Bump Homebrew formula
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mislav/bump-homebrew-formula-action@b3327118b2153c82da63fd9cbf58942146ee99f0 # v3.1
+        with:
+          formula-name: zsh-window-title
+          formula-path: zsh-window-title.rb
+          homebrew-tap: olets/homebrew-tap
+          commit-message: |
+            feat({{formulaName}}): publish {{version}}
+
+            Created by https://github.com/mislav/bump-homebrew-formula-action
+            via the https://github.com/olets/zsh-window-title
+            "bump-homebrew-formula-on-release-publication" workflow
+        env:
+          COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
