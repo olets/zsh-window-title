@@ -108,11 +108,23 @@ __zsh-window-title:init() {
 	__zsh-window-title:add-hooks
 }
 
+__zsh-window-title:set-title() {
+	case $TERM in
+		screen*|\
+		tmux*)
+			'builtin' 'echo' -ne "\033k$*\033\\"
+			;;
+		*)
+			'builtin' 'echo' -ne "\033]0;$*\007"
+			;;
+	esac
+}
+
 __zsh-window-title:precmd() {
 	'builtin' 'emulate' -LR zsh
 	__zsh-window-title:debugger
 
-	'builtin' 'echo' -ne "\033]0;$(__zsh-window-title:get_dir)\007"
+    __zsh-window-title:set-title $(__zsh-window-title:get_dir)
 }
 
 __zsh-window-title:preexec() {
@@ -127,7 +139,7 @@ __zsh-window-title:preexec() {
 		[[ -n $second_word ]] && \
 			cmd+=" $second_word"
 
-	'builtin' 'echo' -ne "\033]0;$(__zsh-window-title:get_dir) - $cmd\007"
+	__zsh-window-title:set-title $(__zsh-window-title:get_dir) - $cmd
 }
 
 zwt() {
