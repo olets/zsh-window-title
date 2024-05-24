@@ -97,7 +97,7 @@ zwt restore-defaults
 
 Variable | Type | Default | Use
 ---|---|---|---
-ZSH_WINDOW_TITLE_COMMAND_PREFIXES | array | `( sudo )` |
+ZSH_WINDOW_TITLE_COMMAND_PREFIXES | array | `( sudo )` | If the command starts with one of these terms, show it and the following word. (With the default, running `sudo sleep 10` will add `sudo sleep` to the window title.)
 ZSH_WINDOW_TITLE_DEBUG | integer | `0` | If non-zero, print hook debugging messages
 ZSH_WINDOW_TITLE_DIRECTORY_DEPTH | integer | `2` | How many directory levels to display
 ZWT_DEBUG | integer | `0` | If non-zero, print CLI debugging messages
