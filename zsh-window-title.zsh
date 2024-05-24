@@ -1,7 +1,7 @@
 # zsh-window-title
 # https://github.com/olets/zsh-window-title
 # A zsh plugin for informative terminal window titles
-# Copyright © 2021 Henry Bley-Vroman
+# Copyright © 2021-present Henry Bley-Vroman
 
 'builtin' 'typeset' -g __zwt_dir && \
 	__zwt_dir=${0:A:h}
