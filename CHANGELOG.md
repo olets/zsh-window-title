@@ -1,3 +1,11 @@
+# [v1.2.0](https://github.com/olets/zsh-window-title/compare/v1.1.3...v1.2.0) (2024-05-23)
+
+### Features
+
+
+* **tmux:** support [[#5](https://github.com/olets/zsh-window-title/issues/5)]. Thanks to @smeetrs ([9438a66](https://github.com/olets/zsh-window-title/commit/9438a666ea3c24bade64fbd03336b2b8c7ba50dd))
+
+
 # [v1.1.3](https://github.com/olets/zsh-window-title/compare/v1.1.2...v1.1.3) (2024-05-16)
 
 
