@@ -27,6 +27,27 @@ Show the manpage.
 
 Print the command name and current version.
 
+.SH Configuration
+The following variables may be set:
+
+.IP \(bu
+\fIZSH_WINDOW_TITLE_COMMAND_PREFIXES\fR
+If the command starts with one of these terms, show it and the following word.
+With the default, running `sudo sleep 10` will add `sudo sleep`
+to the window title. (array; default `( sudo )`)
+
+.IP \(bu
+\fIZSH_WINDOW_TITLE_DEBUG\fR
+If non-zero, print hook debugging messages (integer; default `0`)
+
+.IP \(bu
+\fIZSH_WINDOW_TITLE_DIRECTORY_DEPTH\fR
+How many directory levels to display (integer; default `2`)
+
+.IP \(bu
+\fIZWT_DEBUG\fR
+If non-zero, print CLI debugging messages (integer; default `0`)
+
 .\" .SH EXAMPLES
 
 .SH LICENSE
